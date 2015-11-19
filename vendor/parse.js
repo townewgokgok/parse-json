@@ -324,10 +324,13 @@ function parse(input, options) {
     var result = options.null_prototype ? Object.create(null) : {}
       , empty_object = {}
       , is_non_empty = false
+      , existing_keys = {}
 
     while (position < length) {
       skipWhiteSpace()
       var item1 = parseKey()
+      if (existing_keys[item1]) throw Error('duplicated keys')
+      existing_keys[item1] = true
       skipWhiteSpace()
       tokenStart()
       var chr = input[position++]
